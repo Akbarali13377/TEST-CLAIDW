@@ -1,6 +1,22 @@
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Scene3D from './Scene3D'
 import { profile } from '../data/portfolio'
+
+function useLocalTime() {
+  const [time, setTime] = useState(() =>
+    new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit' }).format(new Date()),
+  )
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTime(new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit' }).format(new Date()))
+    }, 15000)
+    return () => clearInterval(id)
+  }, [])
+
+  return time
+}
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -12,6 +28,8 @@ const fadeUp = {
 }
 
 export default function Hero() {
+  const time = useLocalTime()
+
   return (
     <section id="top" className="hero">
       <div className="hero__grid">
@@ -23,7 +41,7 @@ export default function Hero() {
             custom={0}
             variants={fadeUp}
           >
-            {profile.role} — {profile.location}
+            {profile.role} — {profile.location} — {time}
           </motion.p>
 
           <motion.h1

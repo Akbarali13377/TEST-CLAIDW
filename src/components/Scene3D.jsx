@@ -6,13 +6,18 @@ function Gem() {
   const pointer = useRef({ x: 0, y: 0 })
 
   useFrame((state, delta) => {
+    const scrollT = Math.min(window.scrollY / (window.innerHeight * 0.9), 1)
+
     pointer.current.x += (state.pointer.x - pointer.current.x) * 0.02
     pointer.current.y += (state.pointer.y - pointer.current.y) * 0.02
 
     if (groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.12
-      groupRef.current.rotation.x = pointer.current.y * 0.25
-      groupRef.current.rotation.z = -pointer.current.x * 0.12
+      groupRef.current.rotation.y += delta * (0.12 + scrollT * 0.9)
+      groupRef.current.rotation.x = pointer.current.y * 0.25 + scrollT * 0.9
+      groupRef.current.rotation.z = -pointer.current.x * 0.12 + scrollT * 0.3
+      const scale = 1 - scrollT * 0.25
+      groupRef.current.scale.setScalar(scale)
+      groupRef.current.position.y = -scrollT * 0.6
     }
   })
 
@@ -69,10 +74,12 @@ function Rig() {
   const { pointer } = useThree()
   const target = useRef({ x: 0, y: 0 })
   useFrame((state) => {
+    const scrollT = Math.min(window.scrollY / (window.innerHeight * 0.9), 1)
     target.current.x += (pointer.x - target.current.x) * 0.03
     target.current.y += (pointer.y - target.current.y) * 0.03
     state.camera.position.x = target.current.x * 0.4
     state.camera.position.y = target.current.y * 0.25
+    state.camera.position.z = 6 - scrollT * 1.2
     state.camera.lookAt(0, 0, 0)
   })
   return null
