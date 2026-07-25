@@ -12,7 +12,7 @@ export default function Projects() {
         viewport={{ once: true, amount: 0.4 }}
         transition={{ duration: 0.6 }}
       >
-        <span className="section__label">03 — Projects</span>
+        <span className="mono-label">03 / Projects</span>
         <h2>Selected work</h2>
       </motion.div>
 

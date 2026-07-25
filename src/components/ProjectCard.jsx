@@ -10,29 +10,32 @@ export default function ProjectCard({ project, index }) {
     const rect = card.getBoundingClientRect()
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
-    const rotateX = ((y / rect.height) - 0.5) * -12
-    const rotateY = ((x / rect.width) - 0.5) * 12
-    card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`
+    const rotateX = ((y / rect.height) - 0.5) * -4
+    const rotateY = ((x / rect.width) - 0.5) * 4
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
   }
 
   function handleMouseLeave() {
     const card = cardRef.current
-    if (card) card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateZ(0)'
+    if (card) card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)'
   }
 
   return (
     <motion.div
       className="project-card"
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
+      transition={{ duration: 0.6, delay: index * 0.08 }}
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ '--accent': project.color }}
     >
-      <div className="project-card__glow" />
+      <div className="project-card__top">
+        <span className="mono-label">{String(index + 1).padStart(2, '0')}</span>
+        <span className="project-card__swatch" />
+      </div>
       <h3>{project.title}</h3>
       <p>{project.description}</p>
       <div className="project-card__tags">

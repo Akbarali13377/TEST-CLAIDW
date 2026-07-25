@@ -11,8 +11,8 @@ export default function About() {
         viewport={{ once: true, amount: 0.4 }}
         transition={{ duration: 0.6 }}
       >
-        <span className="section__label">01 — About</span>
-        <h2>A little about me</h2>
+        <span className="mono-label">01 / About</span>
+        <h2>Notes on the work</h2>
       </motion.div>
 
       <div className="about__grid">

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 
 const links = [
-  { href: '#about', label: 'About' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#contact', label: 'Contact' },
+  { href: '#about', label: 'About', n: '01' },
+  { href: '#skills', label: 'Skills', n: '02' },
+  { href: '#projects', label: 'Projects', n: '03' },
+  { href: '#contact', label: 'Contact', n: '04' },
 ]
 
 export default function Navbar() {
@@ -20,12 +20,12 @@ export default function Navbar() {
   return (
     <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
       <a href="#top" className="navbar__brand">
-        AM<span className="dot">.</span>
+        Alex Morgan
       </a>
       <div className={`navbar__links ${open ? 'navbar__links--open' : ''}`}>
         {links.map((l) => (
           <a key={l.href} href={l.href} onClick={() => setOpen(false)}>
-            {l.label}
+            <span className="mono-label">{l.n}</span> {l.label}
           </a>
         ))}
       </div>

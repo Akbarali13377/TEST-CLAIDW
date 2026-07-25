@@ -1,8 +1,8 @@
 export const profile = {
   name: 'Alex Morgan',
-  role: 'Creative Developer & 3D Designer',
-  tagline: 'I build immersive, interactive experiences for the web.',
-  location: 'Remote / Worldwide',
+  role: 'Frontend Engineer',
+  tagline: 'Working at the edge of the browser, the GPU, and the type grid.',
+  location: 'Remote',
   email: 'hello@alexmorgan.dev',
   social: {
     github: 'https://github.com/',
@@ -12,50 +12,47 @@ export const profile = {
 }
 
 export const about = {
-  bio: `I'm a frontend engineer specializing in WebGL and real-time 3D graphics.
-Over the past several years I've combined design and engineering to craft
-websites that feel alive — blending motion, depth, and interactivity into
-products people remember.`,
+  bio: "Six years in, mostly in WebGL. I like problems where the physics matter — camera easing, material response, the way sixty frames a second either holds together or doesn't. Most of what I ship ends up being about restraint: fewer draw calls, fewer effects, a scene that runs the same on a five-year-old laptop as it does in the studio.",
   stats: [
-    { label: 'Years of experience', value: '6+' },
-    { label: 'Projects shipped', value: '48' },
-    { label: 'Happy clients', value: '32' },
-    { label: 'Awwwards & SOTD', value: '9' },
+    { label: 'years building for the web', value: '06' },
+    { label: 'shipped to production', value: '48' },
+    { label: 'studios & teams', value: '12' },
+    { label: 'unread eslint warnings', value: '00' },
   ],
 }
 
 export const skills = [
-  { name: 'React / Next.js', level: 95 },
-  { name: 'Three.js / WebGL', level: 90 },
+  { name: 'React & Next.js', level: 95 },
+  { name: 'Three.js & WebGL', level: 90 },
   { name: 'TypeScript', level: 88 },
-  { name: 'GLSL Shaders', level: 75 },
-  { name: 'UI / UX Design', level: 85 },
-  { name: 'Motion & Animation', level: 92 },
+  { name: 'GLSL', level: 75 },
+  { name: 'Layout & type', level: 85 },
+  { name: 'Motion', level: 92 },
 ]
 
 export const projects = [
   {
     title: 'Nebula Studio',
-    description: 'Interactive WebGL landing page with a real-time particle nebula and scroll-driven camera path.',
+    description: 'Landing page for a motion studio. A particle field reads mouse velocity and settles back into formation after 400ms of rest.',
     tags: ['Three.js', 'React', 'GLSL'],
-    color: '#7c5cff',
+    color: '#c1502f',
   },
   {
     title: 'Orbit Commerce',
-    description: '3D product configurator for an e-commerce brand, letting shoppers customize items in real time.',
-    tags: ['React Three Fiber', 'Zustand', 'Draco'],
-    color: '#22d3ee',
+    description: 'Product configurator for a furniture brand — real fabric swatches mapped onto a compressed Draco mesh, under 800kb total.',
+    tags: ['R3F', 'Zustand', 'Draco'],
+    color: '#7a8a6f',
   },
   {
     title: 'Aurora Dashboard',
-    description: 'Data visualization dashboard with animated 3D charts and glassmorphic UI panels.',
-    tags: ['D3.js', 'Three.js', 'Framer Motion'],
-    color: '#ff6b9d',
+    description: 'Internal analytics tool. Traded the obligatory 3D charts for something simpler once we measured the frame cost against the payoff.',
+    tags: ['D3.js', 'Canvas', 'Framer Motion'],
+    color: '#b08a3e',
   },
   {
     title: 'Voxel Worlds',
-    description: 'Procedurally generated voxel playground exploring instanced meshes and chunked terrain.',
-    tags: ['Three.js', 'WebWorkers', 'Perlin Noise'],
-    color: '#ffb84d',
+    description: 'A weekend project that didn\'t stay a weekend project: chunked terrain, instanced meshes, 200k voxels at 60fps on integrated graphics.',
+    tags: ['Three.js', 'Web Workers', 'Simplex'],
+    color: '#5c7a8a',
   },
 ]

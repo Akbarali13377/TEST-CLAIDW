@@ -5,24 +5,21 @@ export default function Contact() {
   return (
     <section id="contact" className="section contact">
       <motion.div
-        className="contact__card"
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}
         transition={{ duration: 0.7 }}
       >
-        <span className="section__label">04 — Contact</span>
-        <h2>
-          Let's build something
-          <br />
-          <span className="gradient-text">amazing together.</span>
+        <span className="mono-label">04 / Contact</span>
+        <h2 className="contact__heading">
+          Got something worth <em>building</em>?
         </h2>
-        <p>
-          Have a project in mind or just want to say hi? My inbox is always
-          open.
+        <p className="contact__lede">
+          I take on a handful of projects a year — mostly ones with a
+          real technical problem in the middle of them.
         </p>
-        <a className="btn btn--primary" href={`mailto:${profile.email}`}>
-          {profile.email}
+        <a className="contact__email" href={`mailto:${profile.email}`}>
+          {profile.email} ↗
         </a>
 
         <div className="contact__social">
@@ -39,10 +36,7 @@ export default function Contact() {
       </motion.div>
 
       <footer className="footer">
-        <p>
-          © {new Date().getFullYear()} {profile.name}. Built with React &
-          Three.js.
-        </p>
+        <p>© {new Date().getFullYear()} {profile.name}</p>
       </footer>
     </section>
   )
