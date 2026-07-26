@@ -18,10 +18,13 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <Preloader onDone={onDone} />
+      <a href="#about" className="skip-link">
+        Skip to content
+      </a>
       <div className="grain" aria-hidden="true" />
       <Cursor />
       <Navbar />
-      <main>
+      <main id="content">
         <Hero ready={ready} />
         <Marquee />
         <About />

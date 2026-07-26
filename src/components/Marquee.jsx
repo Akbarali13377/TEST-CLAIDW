@@ -22,8 +22,10 @@ export default function Marquee() {
     </div>
   )
 
+  // Purely decorative: the same tools are listed properly in the Stack section,
+  // so let assistive tech skip the repeated loop rather than read it twice.
   return (
-    <div className="marquee">
+    <div className="marquee" aria-hidden="true">
       {track('a')}
       {track('b')}
     </div>
