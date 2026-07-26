@@ -1,14 +1,14 @@
 :root {
-  --bg: #0c0b0a;
-  --bg-raised: #151310;
-  --text: #ece6da;
-  --text-dim: #948c7d;
-  --text-faint: #5c564c;
-  --line: rgba(236, 230, 218, 0.1);
-  --accent: #c1502f;
-  --accent-soft: rgba(193, 80, 47, 0.16);
+  --bg: #0a0c0e;
+  --bg-raised: #121619;
+  --text: #e7ebee;
+  --text-dim: #8b95a0;
+  --text-faint: #4d5760;
+  --line: rgba(231, 235, 238, 0.1);
+  --accent: #ff5f1f;
+  --accent-soft: rgba(255, 95, 31, 0.14);
 
-  --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
 
@@ -43,8 +43,9 @@ body {
 h1,
 h2,
 h3 {
-  font-family: var(--serif);
-  font-weight: 460;
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--text);
   margin: 0;
 }
@@ -69,7 +70,7 @@ button {
 }
 
 em {
-  font-style: italic;
+  font-style: normal;
   color: var(--accent);
 }
 

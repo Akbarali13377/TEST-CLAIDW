@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const links = [
   { href: '#about', label: 'About', n: '01' },
@@ -10,10 +10,28 @@ const links = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const progressRef = useRef(null)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll)
+    let ticking = false
+
+    const update = () => {
+      setScrolled(window.scrollY > 20)
+      const height = document.documentElement.scrollHeight - window.innerHeight
+      const pct = height > 0 ? (window.scrollY / height) * 100 : 0
+      if (progressRef.current) progressRef.current.style.width = `${pct}%`
+      ticking = false
+    }
+
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(update)
+        ticking = true
+      }
+    }
+
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
@@ -38,6 +56,9 @@ export default function Navbar() {
         <span />
         <span />
       </button>
+      <div className="navbar__progress" aria-hidden="true">
+        <div ref={progressRef} className="navbar__progress-fill" />
+      </div>
     </nav>
   )
 }

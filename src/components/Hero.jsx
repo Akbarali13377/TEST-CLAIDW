@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import Scene3D from './Scene3D'
 import { profile } from '../data/portfolio'
+
+const Scene3D = lazy(() => import('./Scene3D'))
 
 function useLocalTime() {
   const [time, setTime] = useState(() =>
@@ -86,7 +87,9 @@ export default function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
         >
-          <Scene3D />
+          <Suspense fallback={null}>
+            <Scene3D />
+          </Suspense>
         </motion.div>
       </div>
 

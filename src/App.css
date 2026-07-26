@@ -78,9 +78,10 @@
 }
 
 .navbar__brand {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 19px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: -0.01em;
   color: var(--text);
 }
 
@@ -98,6 +99,21 @@
 .navbar__links a .mono-label {
   color: var(--text-faint);
   margin-right: 2px;
+}
+
+.navbar__progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: transparent;
+}
+
+.navbar__progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
 }
 
 .navbar__links a:hover {
@@ -225,9 +241,9 @@
 }
 
 .stat-card__value {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 34px;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 32px;
   color: var(--accent);
 }
 
@@ -254,8 +270,6 @@
 }
 
 .skills__note {
-  border-left: 1px solid var(--line);
-  padding-left: 24px;
   padding-top: 4px;
 }
 
@@ -265,11 +279,12 @@
 }
 
 .skills__note p {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 19px;
-  line-height: 1.5;
-  color: var(--text);
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-dim);
+  border-left: 2px solid var(--accent);
+  padding-left: 14px;
 }
 
 .skill-bar__top {
@@ -324,7 +339,7 @@
 }
 
 .project-card__cover .mono-label {
-  color: rgba(236, 230, 218, 0.55);
+  color: rgba(231, 235, 238, 0.55);
 }
 
 .project-card__body {
@@ -377,9 +392,8 @@
 
 .contact__email {
   display: inline-block;
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 24px;
+  font-family: var(--mono);
+  font-size: 18px;
   color: var(--text);
   border-bottom: 1px solid var(--line);
   padding-bottom: 4px;
@@ -439,10 +453,7 @@
   }
 
   .skills__note {
-    border-left: none;
-    border-top: 1px solid var(--line);
-    padding-left: 0;
-    padding-top: 24px;
+    padding-top: 8px;
     margin-top: 8px;
   }
 

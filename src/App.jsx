@@ -1,3 +1,4 @@
+import { MotionConfig } from 'framer-motion'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -9,7 +10,7 @@ import './App.css'
 
 function App() {
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <div className="grain" aria-hidden="true" />
       <Cursor />
       <Navbar />
@@ -20,7 +21,7 @@ function App() {
         <Projects />
         <Contact />
       </main>
-    </>
+    </MotionConfig>
   )
 }
 

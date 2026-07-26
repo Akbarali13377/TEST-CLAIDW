@@ -35,24 +35,24 @@ export const projects = [
     title: 'Nebula Studio',
     description: 'Landing page for a motion studio. A particle field reads mouse velocity and settles back into formation after 400ms of rest.',
     tags: ['Three.js', 'React', 'GLSL'],
-    color: '#c1502f',
+    color: '#ff5f1f',
   },
   {
     title: 'Orbit Commerce',
     description: 'Product configurator for a furniture brand — real fabric swatches mapped onto a compressed Draco mesh, under 800kb total.',
     tags: ['R3F', 'Zustand', 'Draco'],
-    color: '#7a8a6f',
+    color: '#4d90a8',
   },
   {
     title: 'Aurora Dashboard',
     description: 'Internal analytics tool. Traded the obligatory 3D charts for something simpler once we measured the frame cost against the payoff.',
     tags: ['D3.js', 'Canvas', 'Framer Motion'],
-    color: '#b08a3e',
+    color: '#8a9a4d',
   },
   {
     title: 'Voxel Worlds',
     description: 'A weekend project that didn\'t stay a weekend project: chunked terrain, instanced meshes, 200k voxels at 60fps on integrated graphics.',
     tags: ['Three.js', 'Web Workers', 'Simplex'],
-    color: '#5c7a8a',
+    color: '#7a6dd4',
   },
 ]
