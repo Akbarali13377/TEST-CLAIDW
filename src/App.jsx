@@ -1,37 +1,28 @@
-import { useCallback, useState } from 'react'
-import { MotionConfig } from 'framer-motion'
-import Preloader from './components/Preloader'
-import Cursor from './components/Cursor'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import Marquee from './components/Marquee'
+import Thesis from './components/Thesis'
+import Work from './components/Work'
+import Behaviour from './components/Behaviour'
 import About from './components/About'
-import Stack from './components/Stack'
-import Projects from './components/Projects'
-import Contact from './components/Contact'
+import { useScrollReveals, useSmoothScroll } from './lib/motion'
 import './App.css'
 
 export default function App() {
-  const [ready, setReady] = useState(false)
-  const onDone = useCallback(() => setReady(true), [])
+  useSmoothScroll()
+  useScrollReveals()
 
   return (
-    <MotionConfig reducedMotion="user">
-      <Preloader onDone={onDone} />
-      <a href="#about" className="skip-link">
-        Skip to content
-      </a>
-      <div className="grain" aria-hidden="true" />
-      <Cursor />
+    <>
+      <a href="#thesis" className="skip-link">Skip to content</a>
+      <div className="ambient" aria-hidden="true" />
       <Navbar />
       <main id="content">
-        <Hero ready={ready} />
-        <Marquee />
+        <Hero />
+        <Thesis />
+        <Work />
+        <Behaviour />
         <About />
-        <Stack />
-        <Projects />
-        <Contact />
       </main>
-    </MotionConfig>
+    </>
   )
 }

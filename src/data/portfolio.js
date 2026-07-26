@@ -1,8 +1,7 @@
 export const profile = {
   name: 'Alex Morgan',
-  role: 'Frontend Engineer',
-  tagline:
-    'Real-time graphics on the open web. I care about the frame budget as much as the idea.',
+  wordmark: 'Morgan',
+  discipline: 'Real-time graphics for the browser',
   location: 'Remote — UTC+0',
   email: 'hello@alexmorgan.dev',
   social: {
@@ -12,66 +11,71 @@ export const profile = {
   },
 }
 
-export const about = {
-  bio: "Six years in, mostly in WebGL. I like problems where the physics matter — camera easing, material response, the way sixty frames a second either holds together or doesn't. Most of what I ship ends up being about restraint: fewer draw calls, fewer effects, a scene that runs the same on a five-year-old laptop as it does in the studio.",
-  stats: [
-    { label: 'Years shipping for the web', value: '06' },
-    { label: 'Projects in production', value: '48' },
-    { label: 'Studios & in-house teams', value: '12' },
-    { label: 'Median load budget (kb)', value: '180' },
-  ],
+export const hero = {
+  eyebrow: 'Independent practice',
+  headline: 'Scenes that hold their frame budget.',
+  sub: 'I build real-time graphics for the open web — and treat the cost of a frame as part of the design, not an afterthought.',
 }
 
-export const stack = [
+export const thesis = {
+  question: 'What if a scene had to justify every frame it draws?',
+  body: "Most WebGL on the web is billed to the visitor: a shader that runs while nobody is looking, a mesh that ships at full density to a phone, a transition that ignores the fact somebody asked the system to stop moving things. None of that shows up in a screenshot, which is exactly why it survives. I build the other way round — the budget first, then whatever fits inside it.",
+}
+
+/* Named like lab artifacts rather than agency projects: codename plus revision. */
+export const artifacts = [
   {
-    area: 'Real-time graphics',
-    tools: ['Three.js', 'React Three Fiber', 'GLSL', 'WebGPU'],
-    since: 'since 2020',
+    category: 'Renderer',
+    name: 'Drift-2',
+    line: 'A scene graph that budgets draw calls per frame instead of per scene. Holds sixty on integrated graphics with 200k instanced voxels in view.',
+    cta: 'Technical report',
   },
   {
-    area: 'Interface engineering',
-    tools: ['React', 'Next.js', 'TypeScript', 'Vite'],
-    since: 'since 2019',
+    category: 'Shading',
+    name: 'Ferrite-1',
+    line: 'Noise-displaced surfaces whose normals are rebuilt from tangent-offset samples, so light follows the deformation instead of the base sphere.',
+    cta: 'Read the shader',
   },
   {
-    area: 'Motion & interaction',
-    tools: ['Framer Motion', 'GSAP', 'Web Animations API'],
-    since: 'since 2019',
+    category: 'Motion',
+    name: 'Cadence-1',
+    line: 'Interruptible springs that survive being retargeted mid-flight and still resolve to rest, rather than snapping to the new value.',
+    cta: 'Learn more',
   },
   {
-    area: 'Performance',
-    tools: ['Lighthouse', 'Chrome tracing', 'Spector.js', 'bundle budgets'],
-    since: 'since 2021',
+    category: 'Measurement',
+    name: 'Ledger',
+    line: 'A frame-budget harness wired into CI. A commit that adds more than 1.2ms of main-thread work per frame fails the gate.',
+    cta: 'Read the paper',
   },
 ]
 
-export const projects = [
+/* Each claim below is demonstrated by this page — verifiable, not decorative. */
+export const behaviours = [
   {
-    title: 'Nebula Studio',
-    description:
-      'Landing page for a motion studio. A particle field reads mouse velocity and settles back into formation after 400ms of rest.',
-    tags: ['Three.js', 'React', 'GLSL'],
-    color: '#ff5f1f',
+    label: 'Stops when unseen',
+    body: 'The viewport above drops to zero frames once it leaves the screen, and resumes on return. Measured in-browser, not assumed.',
   },
   {
-    title: 'Orbit Commerce',
-    description:
-      'Product configurator for a furniture brand — real fabric swatches mapped onto a compressed Draco mesh, under 800kb total.',
-    tags: ['R3F', 'Zustand', 'Draco'],
-    color: '#4d90a8',
+    label: 'Survives no GPU',
+    body: 'With WebGL unavailable the panel falls back to a static composition and the layout holds, instead of collapsing to an empty column.',
   },
   {
-    title: 'Aurora Dashboard',
-    description:
-      'Internal analytics tool. Traded the obligatory 3D charts for something simpler once we measured the frame cost against the payoff.',
-    tags: ['D3.js', 'Canvas', 'Framer Motion'],
-    color: '#8a9a4d',
+    label: 'Honours reduced motion',
+    body: 'A reduced-motion preference stops the noise field, the pointer drift and every transition on the page — not just the obvious ones.',
   },
   {
-    title: 'Voxel Worlds',
-    description:
-      "A weekend project that didn't stay a weekend project: chunked terrain, instanced meshes, 200k voxels at 60fps on integrated graphics.",
-    tags: ['Three.js', 'Web Workers', 'Simplex'],
-    color: '#7a6dd4',
+    label: 'Keyboard first',
+    body: 'A skip link takes the first Tab, and every interactive element carries a visible focus ring. No exceptions, no suppressed outlines.',
   },
 ]
+
+export const about = {
+  body: "Six years in, mostly in WebGL. I like problems where the physics matter — camera easing, material response, the way sixty frames a second either holds together or doesn't. Most of what I ship ends up being about restraint: fewer draw calls, fewer effects, a scene that runs the same on a five-year-old laptop as it does in the studio.",
+  facts: [
+    ['Focus', 'WebGL · GLSL · React'],
+    ['Working since', '2019'],
+    ['Based', 'Remote — UTC+0'],
+    ['Status', 'Two slots, Q3'],
+  ],
+}

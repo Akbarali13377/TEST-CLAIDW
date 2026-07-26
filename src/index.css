@@ -1,21 +1,28 @@
 :root {
-  --bg: #0a0c0e;
-  --bg-raised: #121619;
-  --text: #e7ebee;
-  --text-dim: #8b95a0;
-  --text-faint: #4d5760;
-  --line: rgba(231, 235, 238, 0.1);
-  --accent: #ff5f1f;
-  --accent-soft: rgba(255, 95, 31, 0.14);
+  /* Black / charcoal with metallic silver and electric blue. */
+  --void: #050608;
+  --char: #0b0d11;
+  --char-2: #12151b;
+  --silver: #d7dee8;
+  --silver-dim: #97a1b0;
+  --silver-faint: #5c6675;
+  --blue: #2f6bff;
+  --blue-soft: rgba(47, 107, 255, 0.16);
+  --glass: rgba(255, 255, 255, 0.045);
+  --glass-line: rgba(255, 255, 255, 0.10);
+  --glass-line-hi: rgba(255, 255, 255, 0.20);
 
-  --display: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  --sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'Fragment Mono', ui-monospace, Menlo, Consolas, monospace;
 
-  font: 17px/1.6 var(--sans);
+  --r-lg: 32px;
+  --r-md: 24px;
+  --r-sm: 20px;
+
+  font: 16px/1.6 var(--sans);
   color-scheme: dark;
-  color: var(--text);
-  background: var(--bg);
+  color: var(--silver);
+  background: var(--void);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -26,33 +33,44 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   margin: 0;
-  background: var(--bg);
   overflow-x: hidden;
+  background: var(--void);
+}
+
+/* Lenis drives scrolling; native smooth behaviour would fight it. */
+html.lenis {
+  scroll-behavior: auto;
+}
+
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 #root {
   min-height: 100svh;
+  position: relative;
+  z-index: 1;
 }
 
 h1,
 h2,
 h3 {
-  font-family: var(--display);
+  font-family: var(--sans);
   font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--text);
+  letter-spacing: -0.03em;
+  color: #fff;
   margin: 0;
 }
 
 p {
   margin: 0;
-  color: var(--text-dim);
+  color: var(--silver-dim);
 }
 
 a {
@@ -65,30 +83,43 @@ button {
 }
 
 ::selection {
-  background: var(--accent);
-  color: var(--bg);
+  background: var(--blue);
+  color: #fff;
 }
 
-em {
-  font-style: normal;
-  color: var(--accent);
-}
-
-.mono-label {
+.tag {
   font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.12em;
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-faint);
+  color: var(--silver-faint);
 }
 
-/* ---------- Focus & skip link ---------- */
-/* The custom cursor hides the system pointer, so a visible focus ring is the
-   only affordance keyboard visitors get. It must never be suppressed. */
+.tag--blue {
+  color: var(--blue);
+}
+
+/* Ambient wash behind everything — the "soft ambient lighting" layer. */
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60vw 50vh at 18% 8%, rgba(47, 107, 255, 0.13), transparent 65%),
+    radial-gradient(55vw 45vh at 84% 22%, rgba(150, 170, 200, 0.08), transparent 62%),
+    radial-gradient(70vw 60vh at 50% 108%, rgba(47, 107, 255, 0.10), transparent 60%);
+  animation: drift 26s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  to { transform: translate3d(0, -2.5%, 0) scale(1.06); }
+}
+
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--blue);
   outline-offset: 3px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .skip-link {
@@ -97,125 +128,34 @@ em {
   left: 12px;
   z-index: 3000;
   padding: 12px 20px;
-  background: var(--accent);
-  color: #0a0c0e;
+  background: var(--blue);
+  color: #fff;
   font-family: var(--mono);
   font-size: 13px;
-  border-radius: 4px;
+  border-radius: 10px;
   transform: translateY(-160%);
-  transition: transform 0.25s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .skip-link:focus-visible {
   transform: translateY(0);
-  outline-offset: 2px;
 }
 
-/* ---------- 3D scene ---------- */
 .scene-wrap {
   width: 100%;
   height: 100%;
 }
 
-/* Shown when the browser has no WebGL, so the hero keeps a focal mass
-   instead of collapsing to an empty column. */
 .scene-fallback {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  border-radius: var(--r-lg);
   background:
-    radial-gradient(circle at 38% 32%, rgba(142, 166, 184, 0.20) 0%, transparent 58%),
-    radial-gradient(circle at 62% 68%, rgba(255, 95, 31, 0.16) 0%, transparent 55%);
-  filter: blur(6px);
+    radial-gradient(circle at 40% 36%, rgba(160, 180, 210, 0.20) 0%, transparent 58%),
+    radial-gradient(circle at 62% 66%, rgba(47, 107, 255, 0.22) 0%, transparent 56%);
+  filter: blur(2px);
 }
 
-/* ---------- Grain ---------- */
-.grain {
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  pointer-events: none;
-  opacity: 0.05;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* ---------- Custom cursor ---------- */
-.cursor__dot,
-.cursor__ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  pointer-events: none;
-  border-radius: 50%;
-  opacity: 0;
-  display: none;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .cursor__dot,
-  .cursor__ring {
-    display: block;
-  }
-}
-
-body.has-custom-cursor {
-  cursor: none;
-}
-
-body.has-custom-cursor a,
-body.has-custom-cursor button {
-  cursor: none;
-}
-
-body.has-custom-cursor .cursor__dot,
-body.has-custom-cursor .cursor__ring {
-  opacity: 1;
-}
-
-.cursor__dot {
-  width: 5px;
-  height: 5px;
-  margin: -2.5px;
-  background: var(--accent);
-  transition: opacity 0.2s ease;
-}
-
-.cursor__ring {
-  width: 32px;
-  height: 32px;
-  margin: -16px;
-  border: 1px solid var(--text-faint);
-  transition: width 0.25s ease, height 0.25s ease, margin 0.25s ease, border-color 0.25s ease, opacity 0.2s ease;
-}
-
-.cursor__ring--active {
-  width: 52px;
-  height: 52px;
-  margin: -26px;
-  border-color: var(--accent);
-}
-
-/* ---------- Scrollbar ---------- */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--bg-raised);
-  border: 2px solid var(--bg);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-faint);
-}
-
-* {
-  scrollbar-color: var(--bg-raised) var(--bg);
-  scrollbar-width: thin;
+@media (prefers-reduced-motion: reduce) {
+  .ambient { animation: none; }
 }

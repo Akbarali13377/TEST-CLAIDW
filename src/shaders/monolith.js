@@ -144,15 +144,16 @@ void main() {
   float fill = max(dot(N, normalize(vec3(-0.6, -0.35, 0.4))), 0.0);
 
   vec3 col = uBase;
-  col += uSheen * pow(key, 1.6) * 0.62;
+  col += uSheen * pow(key, 1.9) * 0.34;
   col += vec3(0.06, 0.09, 0.12) * fill * 0.5;
 
   // Crests catch a trace of accent — enough to read as material, not as fire.
   float ridge = smoothstep(0.14, 0.46, vDisp);
-  col = mix(col, uAccent * 0.5, ridge * 0.10);
+  col = mix(col, uAccent * 0.62, ridge * 0.14);
 
-  // A thin hot edge only at the true silhouette.
-  col += uAccent * pow(fres, 1.7) * 0.55;
+  // A cool edge at the true silhouette, so the mass separates from the
+  // dark panel it sits in without glowing.
+  col += uAccent * pow(fres, 2.1) * 0.42;
 
   // Very slight banding so large flat areas aren't dead-flat 8-bit gradients.
   float dither = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453) - 0.5;

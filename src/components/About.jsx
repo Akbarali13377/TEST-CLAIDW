@@ -1,42 +1,40 @@
-import { motion } from 'framer-motion'
-import Reveal from './Reveal'
-import { about } from '../data/portfolio'
+import { about, profile } from '../data/portfolio'
 
 export default function About() {
   return (
-    <section id="about" className="section about">
-      <div className="section__index">
-        <span className="mono-label">01</span>
-        <span className="mono-label">About</span>
-      </div>
-
-      <Reveal
-        as="h2"
-        className="statement"
-        text="I build things that have to hold sixty frames a second — and still say something."
-      />
-
-      <div className="about__grid">
-        <div className="about__col">
-          <p className="about__bio">{about.bio}</p>
+    <section id="about" className="section">
+      <div className="about glass" data-reveal>
+        <div className="about__main">
+          <span className="tag tag--blue">About</span>
+          <p className="about__body">{about.body}</p>
         </div>
 
-        <ul className="ledger">
-          {about.stats.map((s, i) => (
-            <motion.li
-              className="ledger__row"
-              key={s.label}
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.6 }}
-              transition={{ duration: 0.55, delay: i * 0.06 }}
-            >
-              <span className="ledger__value">{s.value}</span>
-              <span className="ledger__label">{s.label}</span>
-            </motion.li>
+        <dl className="about__facts">
+          {about.facts.map(([k, v]) => (
+            <div className="fact" key={k}>
+              <dt className="tag">{k}</dt>
+              <dd>{v}</dd>
+            </div>
           ))}
-        </ul>
+        </dl>
       </div>
+
+      <div id="contact" className="cta glass" data-reveal>
+        <h2 className="cta__title">Got something that has to be fast?</h2>
+        <a className="cta__mail" href={`mailto:${profile.email}`}>
+          {profile.email}
+        </a>
+        <div className="cta__links">
+          <a href={profile.social.github} target="_blank" rel="noreferrer">GitHub</a>
+          <a href={profile.social.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+          <a href={profile.social.twitter} target="_blank" rel="noreferrer">Twitter</a>
+        </div>
+      </div>
+
+      <footer className="footer">
+        <span className="tag">© {new Date().getFullYear()} {profile.name}</span>
+        <span className="tag">React · Three.js · GLSL · GSAP · Lenis</span>
+      </footer>
     </section>
   )
 }

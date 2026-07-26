@@ -1,103 +1,56 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
-import Magnetic from './Magnetic'
-import { profile } from '../data/portfolio'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+import { hero, profile } from '../data/portfolio'
 
 const Scene3D = lazy(() => import('./Scene3D'))
-const EASE = [0.16, 1, 0.3, 1]
 
-function useClock() {
-  const fmt = () =>
-    new Intl.DateTimeFormat('en-GB', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    }).format(new Date())
-
-  const [t, setT] = useState(fmt)
+function Telemetry() {
+  const start = useRef(Date.now())
+  const [t, setT] = useState(0)
   useEffect(() => {
-    const id = setInterval(() => setT(fmt()), 1000)
+    const id = setInterval(() => setT((Date.now() - start.current) / 1000), 200)
     return () => clearInterval(id)
   }, [])
-  return t
-}
-
-function Line({ children, delay, show }) {
   return (
-    <span className="hero__line">
-      <motion.span
-        className="hero__line-inner"
-        initial={{ y: '108%' }}
-        // Gate on the target itself — changing only the delay would not
-        // restart an animation that is already committed.
-        animate={{ y: show ? '0%' : '108%' }}
-        transition={{ duration: 1.15, ease: EASE, delay: show ? delay : 0 }}
-      >
-        {children}
-      </motion.span>
-    </span>
+    <div className="viewport__telemetry">
+      <span className="tag">
+        <i className="pulse" /> Live · Ferrite-1
+      </span>
+      <span className="tag">{t.toFixed(1)}s</span>
+    </div>
   )
 }
 
-export default function Hero({ ready }) {
-  const clock = useClock()
-  const base = 0.15
-
+export default function Hero() {
   return (
-    <section id="top" className="hero">
-      <div className="hero__object">
+    <header id="top" className="hero">
+      <div className="hero__stage">
         <Suspense fallback={null}>
           <Scene3D />
         </Suspense>
       </div>
 
-      <h1 className="hero__type">
-        <Line show={ready} delay={base}>Frontend</Line>
-        <Line show={ready} delay={base + 0.09}>Engineer</Line>
-      </h1>
+      <div className="hero__scrim" aria-hidden="true" />
 
-      <motion.div
-        className="hero__rail hero__rail--left"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: ready ? 1 : 0 }}
-        transition={{ duration: 0.8, delay: base + 0.5 }}
-      >
-        <span className="mono-label">{profile.name}</span>
-        <span className="mono-label">{profile.location}</span>
-      </motion.div>
-
-      <motion.div
-        className="hero__rail hero__rail--right"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: ready ? 1 : 0 }}
-        transition={{ duration: 0.8, delay: base + 0.5 }}
-      >
-        <span className="mono-label mono-label--live">
-          <i className="dot" /> Available — Q3
+      <div className="hero__inner">
+        <span className="tag tag--blue hero__eyebrow">
+          {hero.eyebrow} — {profile.location}
         </span>
-        <span className="mono-label">{clock} UTC</span>
-      </motion.div>
+        <h1 className="hero__headline">{hero.headline}</h1>
+        <p className="hero__sub">{hero.sub}</p>
 
-      <motion.div
-        className="hero__foot"
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 16 }}
-        transition={{ duration: 0.9, ease: EASE, delay: base + 0.6 }}
-      >
-        <p className="hero__tagline">{profile.tagline}</p>
         <div className="hero__actions">
-          <Magnetic>
-            <a href="#work" className="btn btn--primary">
-              Selected work
-            </a>
-          </Magnetic>
-          <Magnetic>
-            <a href="#contact" className="btn btn--ghost">
-              Get in touch
-            </a>
-          </Magnetic>
+          <a href="#work" className="btn btn--glow">
+            See the artifacts
+          </a>
+          <a href="#thesis" className="btn btn--glass">
+            Read the approach
+          </a>
         </div>
-      </motion.div>
-    </section>
+      </div>
+
+      <div className="hero__hud glass">
+        <Telemetry />
+      </div>
+    </header>
   )
 }
