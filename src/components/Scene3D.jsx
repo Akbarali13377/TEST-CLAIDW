@@ -1,100 +1,75 @@
-import { Suspense, useMemo, useRef } from 'react'
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
+import { fragmentShader, vertexShader } from '../shaders/monolith'
 
-const prefersReducedMotion =
+const reducedMotion =
   typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-function Gem() {
-  const groupRef = useRef()
-  const pointer = useRef({ x: 0, y: 0 })
-  const edges = useMemo(() => new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(1.7, 0)), [])
+function scrollProgress() {
+  if (typeof window === 'undefined') return 0
+  return Math.min(window.scrollY / (window.innerHeight * 0.9), 1)
+}
+
+function Monolith() {
+  const meshRef = useRef()
+  const matRef = useRef()
+  const drift = useRef({ x: 0, y: 0 })
+
+  const uniforms = useMemo(
+    () => ({
+      uTime: { value: 0 },
+      uAmp: { value: 0.30 },
+      uFreq: { value: 0.62 },
+      uPulse: { value: 1 },
+      uBase: { value: new THREE.Color('#0b0e11') },
+      uAccent: { value: new THREE.Color('#ff5f1f') },
+      uSheen: { value: new THREE.Color('#8ea6b8') },
+    }),
+    [],
+  )
 
   useFrame((state, delta) => {
-    const scrollT = Math.min(window.scrollY / (window.innerHeight * 0.9), 1)
-    if (!groupRef.current) return
+    const t = scrollProgress()
+    const m = meshRef.current
+    if (!m || !matRef.current) return
 
-    const scale = 1 - scrollT * 0.25
-    groupRef.current.scale.setScalar(scale)
-    groupRef.current.position.y = -scrollT * 0.6
+    matRef.current.uniforms.uTime.value += reducedMotion ? 0 : delta
+    // The form tightens as you scroll away from the hero.
+    matRef.current.uniforms.uPulse.value = 1 - t * 0.55
 
-    if (prefersReducedMotion) {
-      groupRef.current.rotation.set(0.3, 0.5, 0)
+    m.scale.setScalar(1 - t * 0.18)
+    m.position.y = -t * 0.5
+
+    if (reducedMotion) {
+      m.rotation.set(0.2, 0.6, 0)
       return
     }
 
-    pointer.current.x += (state.pointer.x - pointer.current.x) * 0.02
-    pointer.current.y += (state.pointer.y - pointer.current.y) * 0.02
+    drift.current.x += (state.pointer.x - drift.current.x) * 0.025
+    drift.current.y += (state.pointer.y - drift.current.y) * 0.025
 
-    groupRef.current.rotation.y += delta * (0.12 + scrollT * 0.9)
-    groupRef.current.rotation.x = pointer.current.y * 0.25 + scrollT * 0.9
-    groupRef.current.rotation.z = -pointer.current.x * 0.12 + scrollT * 0.3
+    m.rotation.y += delta * (0.1 + t * 0.55)
+    m.rotation.x = drift.current.y * 0.3 + t * 0.5
+    m.rotation.z = -drift.current.x * 0.14
   })
 
   return (
-    <group ref={groupRef}>
-      <mesh castShadow>
-        <icosahedronGeometry args={[1.7, 0]} />
-        <meshPhysicalMaterial
-          color="#232a30"
-          roughness={0.32}
-          metalness={0.8}
-          clearcoat={0.4}
-          clearcoatRoughness={0.3}
-          flatShading
-        />
-      </mesh>
-      <lineSegments geometry={edges}>
-        <lineBasicMaterial color="#ff5f1f" transparent opacity={0.5} />
-      </lineSegments>
-    </group>
-  )
-}
-
-function Dust() {
-  const count = 90
-  const ref = useRef()
-  const positions = useRef(
-    Float32Array.from(
-      Array.from({ length: count }, () => [
-        (Math.random() - 0.5) * 9,
-        (Math.random() - 0.5) * 9,
-        (Math.random() - 0.5) * 6 - 1,
-      ]).flat(),
-    ),
-  )
-
-  useFrame((_, delta) => {
-    if (ref.current && !prefersReducedMotion) ref.current.rotation.y += delta * 0.015
-  })
-
-  return (
-    <points ref={ref}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={count}
-          array={positions.current}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial size={0.02} color="#5b6670" transparent opacity={0.5} sizeAttenuation />
-    </points>
+    <mesh ref={meshRef}>
+      <icosahedronGeometry args={[1.55, 64]} />
+      <shaderMaterial
+        ref={matRef}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        uniforms={uniforms}
+      />
+    </mesh>
   )
 }
 
 function Rig() {
-  const { pointer } = useThree()
-  const target = useRef({ x: 0, y: 0 })
   useFrame((state) => {
-    const scrollT = Math.min(window.scrollY / (window.innerHeight * 0.9), 1)
-    state.camera.position.z = 6 - scrollT * 1.2
-    if (!prefersReducedMotion) {
-      target.current.x += (pointer.x - target.current.x) * 0.03
-      target.current.y += (pointer.y - target.current.y) * 0.03
-      state.camera.position.x = target.current.x * 0.4
-      state.camera.position.y = target.current.y * 0.25
-    }
+    state.camera.position.z = 5.2 - scrollProgress() * 0.9
     state.camera.lookAt(0, 0, 0)
   })
   return null
@@ -103,20 +78,12 @@ function Rig() {
 export default function Scene3D() {
   return (
     <Canvas
-      camera={{ position: [0, 0, 6], fov: 38 }}
-      dpr={[1, 1.8]}
+      camera={{ position: [0, 0, 5.2], fov: 42 }}
+      dpr={[1, 1.75]}
       gl={{ antialias: true, alpha: true }}
     >
-      <Suspense fallback={null}>
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[4, 5, 3]} intensity={1.4} color="#dfe6ec" />
-        <pointLight position={[-4, -2, 2]} intensity={0.9} color="#ff5f1f" />
-        <pointLight position={[0, -3, -4]} intensity={0.5} color="#2a3238" />
-
-        <Gem />
-        <Dust />
-        <Rig />
-      </Suspense>
+      <Monolith />
+      <Rig />
     </Canvas>
   )
 }
